@@ -16,5 +16,9 @@ export function buildApp () {
     reply.view('index.ejs', { name: 'User' })
   })
 
+  app.post('/form', (req, reply) => {
+    reply.view('form.ejs', { name: 'User' })
+  })
+
   return app
 }
