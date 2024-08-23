@@ -4,7 +4,7 @@ import ejs from 'ejs'
 import path from 'node:path'
 import { fileURLToPath } from 'url'
 import fastifyStatic from '@fastify/static'
-import { buildHtmlFile, BUILT_CSS_FILE, RAW_EJS_FILENAME } from './lib/build-tailwind.js'
+import { buildHtmlFile } from './lib/build-tailwind.js'
 import log from './lib/log.js'
 
 const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
@@ -26,15 +26,27 @@ export function buildApp () {
   })
 
   app.get('/form', async (req, reply) => {
-    await buildHtmlFile()
+    const ejsPath = 'form.ejs'
+    const cssPath = 'css/index.css'
+    const buildCssPath = 'css/index.build.css'
 
-    log.info(`serving ${RAW_EJS_FILENAME} with cssPath=${BUILT_CSS_FILE}`)
+    await buildHtmlFile({ ejsFile: `views/${ejsPath}`, cssPath, buildCssPath })
 
-    return reply.view(RAW_EJS_FILENAME, { cssPath: BUILT_CSS_FILE })
+    return reply.view(ejsPath, { cssPath: buildCssPath })
+  })
+
+  app.get('/static-demo', async (req, reply) => {
+    const ejsPath = 'static-demo.ejs'
+    const cssPath = 'css/static-demo.css'
+    const buildCssPath = 'css/static-demo.build.css'
+
+    await buildHtmlFile({ ejsFile: `views/${ejsPath}`, cssPath, buildCssPath })
+
+    return reply.view(ejsPath, { cssPath: buildCssPath })
   })
 
   app.get('/', (req, reply) => {
-    return reply.view('index.ejs', { name: 'User2' })
+    return reply.view('index.ejs', { name: 'User' })
   })
 
   return app
