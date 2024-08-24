@@ -5,12 +5,23 @@ export default {
   // decorators: [(story) => html`${unsafeHTML(input({ type: 'text', name: 'greetings' })())}`]
 }
 
+const args = {
+  type: 'text',
+  name: 'Greetings'
+}
+
 export const Default = {
   render: ({ type, name }) => {
     return input({ type, name })()
   },
-  args: {
-    type: 'text',
-    name: 'greetings'
+  args,
+  parameters: {
+    docs: {
+      source: {
+        type: 'code',
+        code: `input({ type: '${args.type}', name: '${args.name}' })`
+      }
+    }
   }
+
 }
