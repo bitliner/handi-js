@@ -1,13 +1,18 @@
 #!/usr/bin/env node
 
-import { buildApp } from '../app.js'
+import { buildApp } from '../web-server/app.js'
+import launchApp from '../web-server/launch-app.js'
+import { title, input } from '../lib/components/index.js'
 
-const app = buildApp()
+const ui = [
+  title('My example app'),
+  input({ type: 'text', name: 'Name' })
+]
 
-app.listen({ port: 3000 }, (err, address) => {
-  if (err) {
-    server.log.error(err)
-    process.exit(1)
-  }
-  console.log(`listening on ${address}`)
-})
+const onSubmit = ({ Name }) => {
+  return 'Hello ' + Name + '!'
+}
+
+const app = buildApp({ ui, onSubmit })
+
+launchApp(app)

@@ -66,9 +66,31 @@ const output = document.getElementById('output');
 submitButton.addEventListener('click', (event) => {
   event.preventDefault();
 
-  alert(`inputValues: ${JSON.stringify(getInputValues(inputNames))}`);
+  const data=getInputValues(inputNames)
 
-  output.innerText="this is the output"
+  alert(`inputValues: ${JSON.stringify(data)}`);
+
+  fetch('/submit', {
+  method: 'POST', // Specify the method
+  headers: {
+    'Content-Type': 'application/json' // Set the headers
+  },
+  body: JSON.stringify({params:data, inputNames}) // Convert the data to JSON
+})
+.then(response => {
+  if (response.ok) {
+    return response.text(); // Parse the response as JSON
+  }
+  throw new Error('Network response was not ok.');
+})
+.then(data => {
+  console.log('Success:', data); // Handle the response data
+  output.innerText=data
+})
+.catch(error => {
+  console.log('There was a problem with the fetch operation:', error);
+});
+
 });
 
 clearButton.addEventListener('click', (event) => {
