@@ -18,7 +18,9 @@
     "@storybook/web-components": "^8.2.9",
     "ejs": "^3.1.10",
     "fastify": "^4.28.1",
-    "pino": "^9.3.2"
+    "htm": "^3.1.1",
+    "pino": "^9.3.2",
+    "preact-render-to-string": "^6.5.9"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.7.0",
