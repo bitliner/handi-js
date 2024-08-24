@@ -33,6 +33,7 @@
     "@storybook/test": "^8.2.9",
     "@storybook/web-components-webpack5": "^8.2.9",
     "autoprefixer": "^10.4.20",
+    "daisyui": "^4.12.10",
     "postcss": "^8.4.41",
     "storybook": "^8.2.9",
     "tailwindcss": "^3.4.10"
