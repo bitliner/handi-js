@@ -16,6 +16,7 @@
     "@fastify/static": "^7.0.4",
     "@fastify/view": "^9.1.0",
     "@storybook/web-components": "^8.2.9",
+    "@tailwindcss/typography": "^0.5.14",
     "ejs": "^3.1.10",
     "fastify": "^4.28.1",
     "pino": "^9.3.2"

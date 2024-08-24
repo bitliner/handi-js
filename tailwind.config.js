@@ -1,4 +1,5 @@
 import daisyUi from 'daisyui'
+import tailwindTypography from '@tailwindcss/typography'
 
 export default {
   // content: ['./lib/components/*.{js,jsx,ts,tsx}'],
@@ -7,5 +8,5 @@ export default {
   theme: {
     extend: {}
   },
-  plugins: [daisyUi]
+  plugins: [tailwindTypography, daisyUi]
 }
