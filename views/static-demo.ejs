@@ -37,9 +37,11 @@ function getInputValues(names) {
   var values = {};
   
   names.forEach(function(name) {
-    var inputElement = document.querySelector(`input[name="${name}"]`);
-    if (inputElement) {
-      values[name] = inputElement.value;
+    var inputElement = document.querySelector(`[name="${name}"]`);
+    if (inputElement && inputElement.type==='checkbox') {
+      values[name] = !!inputElement.checked
+    } else if (inputElement) {
+      values[name] = inputElement.value
     }
   });
 

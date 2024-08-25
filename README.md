@@ -12,12 +12,12 @@
 
 - [ ] define and implement basic elements of a form: all daisyUI input elements
   - [x] text input
-  - [ ] select
-  - [ ] slider/range
-  - [ ] checkbox
+  - [x] select
+  - [x] slider/range
+  - [x] checkbox
   - [ ] file input
   - [ ] radio
-  - [ ] textarea
+  - [x] textarea
   - [ ] toggle
 - [x] find a name for the project
 - [ ] ensure storybook is well implemented

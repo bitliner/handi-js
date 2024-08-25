@@ -1,16 +1,24 @@
 #!/usr/bin/env node
 
-import { buildApp } from '../web-server/app.js'
-import launchApp from '../web-server/launch-app.js'
-import { title, input } from '../lib/components/index.js'
+import { title, textInput, select, textarea, checkbox, range, launchApp, buildApp } from '../index.js'
 
 const ui = [
   title('My example app'),
-  input({ type: 'text', name: 'Name' })
+  textInput({ name: 'Name' }),
+  select({ name: 'Country', options: ['Germany', 'UK', 'France'] }),
+  textarea({ name: 'Description' }),
+  checkbox({ name: 'DarkMode' }),
+  range({ name: 'Size', min: 0, max: 25, defaultValue: 10 })
 ]
 
-const onSubmit = ({ Name }) => {
-  return 'Hello ' + Name + '!'
+const onSubmit = ({ Name, Country, Description, DarkMode, Size }) => {
+  return `Received:
+  Name=${Name}
+  Country=${Country}
+  Description=${Description}
+  DarkMode=${DarkMode}
+  Size=${Size}
+  `
 }
 
 const app = buildApp({ ui, onSubmit })
