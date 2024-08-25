@@ -10,7 +10,7 @@ import log from '../lib/log.js'
 const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
 const __dirname = path.dirname(__filename)
 
-export function buildApp ({ onSubmit, ui = [] } = {}) {
+export function buildApp ({ onSubmit, ui = [], outputType = 'text' } = {}) {
   const app = fastify()
 
   app.register(fastifyStatic, {
@@ -62,11 +62,9 @@ export function buildApp ({ onSubmit, ui = [] } = {}) {
 
     const inputNames = JSON.stringify(ui.filter(el => el.inputName).map(el => el.inputName))
 
-    console.log('ninputNamesmes', inputNames)
+    await buildHtmlFile({ ejsFile: `views/${ejsPath}`, cssPath, buildCssPath, content, inputNames, outputType })
 
-    await buildHtmlFile({ ejsFile: `views/${ejsPath}`, cssPath, buildCssPath, content, inputNames })
-
-    return reply.view(ejsPath, { cssPath: buildCssPath, content, inputNames })
+    return reply.view(ejsPath, { cssPath: buildCssPath, content, inputNames, outputType })
   })
 
   app.get('/', (req, reply) => {

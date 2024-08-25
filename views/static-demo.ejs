@@ -24,7 +24,9 @@
           <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
             Output
           </label>
-          <div id="output"></div>
+          <div id="output">
+            <span id="skeleton" class="loading loading-spinner loading-lg" style="display:none;"></span>
+          </div>
         </div>
       </form>
       
@@ -59,18 +61,21 @@ function clearInputs(names) {
 
 const inputNames = <%- inputNames %>
 
+const outputType="<%= outputType %>"
+
 console.log('inputNames are:',inputNames)
 
 const submitButton = document.getElementById('submit');
 const clearButton = document.getElementById('clear');
 const output = document.getElementById('output');
+const skeleton = document.getElementById('skeleton');
 
 submitButton.addEventListener('click', (event) => {
   event.preventDefault();
 
   const data=getInputValues(inputNames)
 
-  alert(`inputValues: ${JSON.stringify(data)}`);
+  skeleton.style.display='block'
 
   fetch('/submit', {
   method: 'POST', // Specify the method
@@ -79,18 +84,29 @@ submitButton.addEventListener('click', (event) => {
   },
   body: JSON.stringify({params:data, inputNames}) // Convert the data to JSON
 })
-.then(response => {
+.then(async response => {
   if (response.ok) {
     return response.text(); // Parse the response as JSON
   }
-  throw new Error('Network response was not ok.');
+  debugger
+  throw new Error(`Network response was not ok: ${JSON.stringify(await response.text())}`);
 })
 .then(data => {
   console.log('Success:', data); // Handle the response data
+  if (outputType==='image'){
+    const img = document.createElement('img');
+    img.src = data
+    output.innerHTML = ''
+    output.append(img)
+    return 
+  }
+  skeleton.style.display='none'
   output.innerText=data
 })
 .catch(error => {
   console.log('There was a problem with the fetch operation:', error);
+  skeleton.style.display='none'
+  output.innerHTML=`<span style="color:red;">${error}</span>`
 });
 
 });
