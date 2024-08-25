@@ -19,7 +19,15 @@
   - [ ] radio
   - [x] textarea
   - [ ] toggle
+- [ ] change default daisy theme, in case add a theme switcher
 - [x] find a name for the project
-- [ ] ensure storybook is well implemented
 - [ ] ensure README.md can be the docs (future web-site)
+  - [ ] Description and Value proposition
+  - [ ] Installation
+  - [ ] Usage/quick example
+  - [ ] Documentation of each component? is it needed? probably not since the quick example is enough
+- [ ] CI/CD
+  - [ ] test
+  - [ ] node.js publish on a different account (humanisys)
+- [ ] ensure storybook is well implemented
 - [ ] try to deliver storybooks website on github
