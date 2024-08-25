@@ -4,18 +4,23 @@ import ejs from 'ejs'
 import path from 'node:path'
 import { fileURLToPath } from 'url'
 import fastifyStatic from '@fastify/static'
-import { buildHtmlFile } from './lib/build-tailwind.js'
-import log from './lib/log.js'
+import { buildHtmlFile } from '../lib/build-tailwind.js'
+import log from '../lib/log.js'
 
 const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
 const __dirname = path.dirname(__filename)
 
-export function buildApp () {
+export function buildApp ({ onSubmit, ui = [] } = {}) {
   const app = fastify()
 
   app.register(fastifyStatic, {
-    root: path.join(__dirname, 'css'),
-    prefix: '/css/' // optional: default '/'
+    root: path.join(__dirname, '../css'),
+    prefix: '/css/'
+  })
+  app.register(fastifyStatic, {
+    root: path.join(__dirname, '../js'),
+    prefix: '/js/',
+    decorateReply: false
   })
 
   app.register(fastifyView, {
@@ -35,14 +40,33 @@ export function buildApp () {
     return reply.view(ejsPath, { cssPath: buildCssPath })
   })
 
+  app.post('/submit', async (req, reply) => {
+    console.log(req.body.params, req.body.inputNames)
+
+    if (onSubmit) {
+      const res = await onSubmit(req.body.params)
+      reply.send(res)
+    }
+
+    reply.send('ERROR: onSubmit callback was not provided')
+  })
+
   app.get('/static-demo', async (req, reply) => {
     const ejsPath = 'static-demo.ejs'
     const cssPath = 'css/static-demo.css'
     const buildCssPath = 'css/static-demo.build.css'
 
-    await buildHtmlFile({ ejsFile: `views/${ejsPath}`, cssPath, buildCssPath })
+    const content = ui
+      .map(el => el())
+      .join('')
 
-    return reply.view(ejsPath, { cssPath: buildCssPath })
+    const inputNames = JSON.stringify(ui.filter(el => el.inputName).map(el => el.inputName))
+
+    console.log('ninputNamesmes', inputNames)
+
+    await buildHtmlFile({ ejsFile: `views/${ejsPath}`, cssPath, buildCssPath, content, inputNames })
+
+    return reply.view(ejsPath, { cssPath: buildCssPath, content, inputNames })
   })
 
   app.get('/', (req, reply) => {

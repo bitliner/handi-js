@@ -8,43 +8,124 @@
 <body>
   <div class="w-full flex justify-center p-20">
     <div class="w-full max-w-3xl">
-      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div class="mb-8">
-          <h1 class="font-bold text-3xl">Form</h1>
-        </div>
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-            Username
-          </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username">
-        </div>
-        <div class="mb-6">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-            Password
-          </label>
-          <input class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************">
-          <p class="text-red-500 text-xs italic">Please choose a password.</p>
-        </div>
-        <div class="mb-6">
-          <button class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col gap-y-6">
+        <%- content %>
+        <div class="mt-4">
+          <button class="btn btn-primary  w-full" id="submit">
             Submit
           </button>
         </div>
-        <div class="mb-6">
-          <button class=" w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+        <div class="">
+          <button class="btn btn-secondary w-full" id="clear">
             Clear
             </button>
         </div>
-        <div class="mb-6">
+        <div class="">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
             Output
           </label>
-          <div>Ciaociao</div>
+          <div id="output"></div>
         </div>
       </form>
       
     </div>
   </div>
+  <script>
+
+// Function to get the values of inputs based on their names
+function getInputValues(names) {
+  var values = {};
+  
+  names.forEach(function(name) {
+    var inputElement = document.querySelector(`[name="${name}"]`);
+    if (inputElement && inputElement.type==='checkbox') {
+      values[name] = !!inputElement.checked
+    } else if (inputElement) {
+      values[name] = inputElement.value
+    }
+  });
+
+  return values;
+}
+
+function clearInputs(names) {
+  names.forEach(function(name) {
+    var inputElement = document.querySelector(`input[name="${name}"]`);
+    if (inputElement) {
+      inputElement.value = ''; // Clear the value of the input
+    }
+  });
+}
+
+const inputNames = <%- inputNames %>
+
+console.log('inputNames are:',inputNames)
+
+const submitButton = document.getElementById('submit');
+const clearButton = document.getElementById('clear');
+const output = document.getElementById('output');
+
+submitButton.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  const data=getInputValues(inputNames)
+
+  alert(`inputValues: ${JSON.stringify(data)}`);
+
+  fetch('/submit', {
+  method: 'POST', // Specify the method
+  headers: {
+    'Content-Type': 'application/json' // Set the headers
+  },
+  body: JSON.stringify({params:data, inputNames}) // Convert the data to JSON
+})
+.then(response => {
+  if (response.ok) {
+    return response.text(); // Parse the response as JSON
+  }
+  throw new Error('Network response was not ok.');
+})
+.then(data => {
+  console.log('Success:', data); // Handle the response data
+  output.innerText=data
+})
+.catch(error => {
+  console.log('There was a problem with the fetch operation:', error);
+});
+
+});
+
+clearButton.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  clearInputs(inputNames)
+
+  output.innerText=""
+});
+
+
+
+// Send the POST request
+// fetch('/submit', {
+//   method: 'POST', // Specify the method
+//   headers: {
+//     'Content-Type': 'application/json' // Set the headers
+//   },
+//   body: JSON.stringify(data) // Convert the data to JSON
+// })
+// .then(response => {
+//   if (response.ok) {
+//     return response.json(); // Parse the response as JSON
+//   }
+//   throw new Error('Network response was not ok.');
+// })
+// .then(data => {
+//   console.log('Success:', data); // Handle the response data
+// })
+// .catch(error => {
+//   console.log('There was a problem with the fetch operation:', error);
+// });
+    </script>
   
 </body>
 </html>

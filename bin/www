@@ -1,13 +1,26 @@
 #!/usr/bin/env node
 
-import {buildApp} from '../app.js'
+import { title, textInput, select, textarea, checkbox, range, launchApp, buildApp } from '../index.js'
 
-const app=buildApp()
+const ui = [
+  title('My example app'),
+  textInput({ name: 'Name' }),
+  select({ name: 'Country', options: ['Germany', 'UK', 'France'] }),
+  textarea({ name: 'Description' }),
+  checkbox({ name: 'DarkMode' }),
+  range({ name: 'Size', min: 0, max: 25, defaultValue: 10 })
+]
 
-app.listen({ port: 3000 }, (err, address) => {
-  if (err) {
-    server.log.error(err)
-    process.exit(1)
-  }
-  console.log(`listening on ${address}`)
-})
+const onSubmit = ({ Name, Country, Description, DarkMode, Size }) => {
+  return `Received:
+  Name=${Name}
+  Country=${Country}
+  Description=${Description}
+  DarkMode=${DarkMode}
+  Size=${Size}
+  `
+}
+
+const app = buildApp({ ui, onSubmit })
+
+launchApp(app)
