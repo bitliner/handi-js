@@ -10,7 +10,9 @@ For quickly building form-based applications - e.g. for running ML models.
 
 ## Usage
 
-**Quick example**
+### Quick example
+
+A web form asking the user for Name and Surname and returning a greeting.
 
 ```javascript
 import {
@@ -39,7 +41,9 @@ const app = buildApp({ ui, onSubmit, outputType: "image" })
 launchApp(app)
 ```
 
-**More complex example (image generation with OpenAI)**
+### More complex example
+
+An image generator using OpenAI's DALL-E.
 
 ```javascript
 import OpenAI from "openai"
