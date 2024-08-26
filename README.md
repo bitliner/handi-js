@@ -2,7 +2,7 @@
 
 HandiJS is a simple Gradio for NodeJS.
 
-For quickly building form-based applications - e.g. for running ML models.
+For quickly building form-based applications - like Machine Learning applications.
 
 ## Installation
 
