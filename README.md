@@ -47,16 +47,7 @@ An image generator using OpenAI's DALL-E.
 ```javascript
 import OpenAI from "openai"
 
-import {
-  title,
-  textInput,
-  select,
-  textarea,
-  checkbox,
-  range,
-  launchApp,
-  buildApp,
-} from "../index.js"
+import { title, textInput, launchApp, buildApp } from "../index.js"
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
