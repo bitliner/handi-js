@@ -26,19 +26,18 @@ import {
   buildApp,
 } from "../index.js"
 
-const ui = [
-  title("My example app"),
-  textInput({ name: "Name", defaultValue: "" }),
-  textInput({ name: "Surname", defaultValue: "" }),
-]
+const app = buildApp({
+  ui: [
+    title("My example app"),
+    textInput({ name: "Name", defaultValue: "" }),
+    textInput({ name: "Surname", defaultValue: "" }),
+  ],
+  onSubmit: async ({ Name, Surname }) => {
+    return `Hi ${Name} ${Surname}`
+  },
+})
 
-const onSubmit = async ({ Name, Surname }) => {
-  return `Hi ${Name} ${Surname}`
-}
-
-const app = buildApp({ ui, onSubmit, outputType: "image" })
-
-launchApp(app)
+launchApp(app) // start the app on http://localhost:3000
 ```
 
 ### More complex example
