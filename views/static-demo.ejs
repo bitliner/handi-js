@@ -24,9 +24,7 @@
           <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
             Output
           </label>
-          <div id="output">
-            <span id="skeleton" class="loading loading-spinner loading-lg" style="display:none;"></span>
-          </div>
+          <div id="output"> </div>
         </div>
       </form>
       
@@ -49,7 +47,9 @@ function getInputValues(names) {
 
   return values;
 }
-
+function clearContainer(container){
+  container.innerHTML = ''
+}
 function clearInputs(names) {
   names.forEach(function(name) {
     var inputElement = document.querySelector(`input[name="${name}"]`);
@@ -59,6 +59,12 @@ function clearInputs(names) {
   });
 }
 
+function showLoader(container){
+  const span = document.createElement('span')
+  span.className='loading loading-spinner loading-lg'
+  container.innerHTML=''
+  container.append(span)
+}
 const inputNames = <%- inputNames %>
 
 const outputType="<%= outputType %>"
@@ -75,7 +81,7 @@ submitButton.addEventListener('click', (event) => {
 
   const data=getInputValues(inputNames)
 
-  skeleton.style.display='block'
+  showLoader(output)
 
   fetch('/submit', {
   method: 'POST', // Specify the method
@@ -88,11 +94,11 @@ submitButton.addEventListener('click', (event) => {
   if (response.ok) {
     return response.text(); // Parse the response as JSON
   }
-  debugger
   throw new Error(`Network response was not ok: ${JSON.stringify(await response.text())}`);
 })
 .then(data => {
   console.log('Success:', data); // Handle the response data
+  clearContainer(output)
   if (outputType==='image'){
     const img = document.createElement('img');
     img.src = data
@@ -100,12 +106,11 @@ submitButton.addEventListener('click', (event) => {
     output.append(img)
     return 
   }
-  skeleton.style.display='none'
   output.innerText=data
 })
 .catch(error => {
   console.log('There was a problem with the fetch operation:', error);
-  skeleton.style.display='none'
+  clearContainer(output)
   output.innerHTML=`<span style="color:red;">${error}</span>`
 });
 
@@ -115,6 +120,7 @@ clearButton.addEventListener('click', (event) => {
   event.preventDefault();
 
   clearInputs(inputNames)
+  clearContainer(output)
 
   output.innerText=""
 });
