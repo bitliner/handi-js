@@ -2,19 +2,17 @@ import fastifyView from '@fastify/view'
 import fastify from 'fastify'
 import ejs from 'ejs'
 import path from 'node:path'
-import { fileURLToPath } from 'url'
 import fastifyStatic from '@fastify/static'
 import { buildHtmlFile } from '../lib/build-tailwind.js'
 import log from '../lib/log.js'
 
-const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
-const __dirname = path.dirname(__filename)
+const __dirname = import.meta.dirname
 
 export function buildApp ({ onSubmit, ui = [], outputType = 'text' } = {}) {
   const app = fastify()
 
   app.register(fastifyStatic, {
-    root: path.join(__dirname, '../public/css'),
+    root: path.join(__dirname, './public/css'),
     prefix: '/public/css/'
   })
 
@@ -22,7 +20,7 @@ export function buildApp ({ onSubmit, ui = [], outputType = 'text' } = {}) {
     engine: {
       ejs
     },
-    root: './views'
+    root: path.join(__dirname, './views')
   })
 
   app.post('/submit', async (req, reply) => {
@@ -37,9 +35,10 @@ export function buildApp ({ onSubmit, ui = [], outputType = 'text' } = {}) {
   })
 
   app.get('/', async (req, reply) => {
-    const ejsPath = 'static-demo.ejs'
+    const ejsFile = 'static-demo.ejs'
     const cssPath = 'public/css/static-demo.css'
     const buildCssPath = 'public/css/static-demo.build.css'
+    const rootFolder = __dirname
 
     const content = ui
       .map(el => el())
@@ -47,9 +46,9 @@ export function buildApp ({ onSubmit, ui = [], outputType = 'text' } = {}) {
 
     const inputNames = JSON.stringify(ui.filter(el => el.inputName).map(el => el.inputName))
 
-    await buildHtmlFile({ ejsFile: `views/${ejsPath}`, cssPath, buildCssPath, content, inputNames, outputType })
+    await buildHtmlFile({ rootFolder, ejsFile, cssPath, buildCssPath, content, inputNames, outputType })
 
-    return reply.view(ejsPath, { cssPath: buildCssPath, content, inputNames, outputType })
+    return reply.view(ejsFile, { cssPath: buildCssPath, content, inputNames, outputType })
   })
 
   return app
