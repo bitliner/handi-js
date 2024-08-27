@@ -14,13 +14,8 @@ export function buildApp ({ onSubmit, ui = [], outputType = 'text' } = {}) {
   const app = fastify()
 
   app.register(fastifyStatic, {
-    root: path.join(__dirname, '../css'),
-    prefix: '/css/'
-  })
-  app.register(fastifyStatic, {
-    root: path.join(__dirname, '../js'),
-    prefix: '/js/',
-    decorateReply: false
+    root: path.join(__dirname, '../public/css'),
+    prefix: '/public/css/'
   })
 
   app.register(fastifyView, {
@@ -43,8 +38,8 @@ export function buildApp ({ onSubmit, ui = [], outputType = 'text' } = {}) {
 
   app.get('/', async (req, reply) => {
     const ejsPath = 'static-demo.ejs'
-    const cssPath = 'css/static-demo.css'
-    const buildCssPath = 'css/static-demo.build.css'
+    const cssPath = 'public/css/static-demo.css'
+    const buildCssPath = 'public/css/static-demo.build.css'
 
     const content = ui
       .map(el => el())
