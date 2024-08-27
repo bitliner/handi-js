@@ -4,6 +4,8 @@ HandiJS is a simple Gradio for NodeJS.
 
 For quickly building form-based applications - like Machine Learning applications.
 
+Built with <a href="https://fastify.dev/">Fastify</a>, <a href="https://tailwindui.com/">Tailwind</a>, <a href="https://daisyui.com/">DaisyUI</a>.
+
 ## Installation
 
 `npm i handijs`
@@ -96,31 +98,3 @@ launchApp(app)
 Result will be:
 
 <img src="docs/handi-js-example.gif" />
-
-## TODO
-
-**v1**
-
-- [ ] define and implement basic elements of a form: all daisyUI input elements
-  - [x] text input
-  - [x] select
-  - [x] slider/range
-  - [x] checkbox
-  - [ ] file input
-  - [ ] radio
-  - [x] textarea
-  - [ ] toggle
-- [ ] change default daisy theme, in case add a theme switcher
-- [ ] range: fix missing label
-- [x] add loader
-- [x] find a name for the project
-- [ ] ensure README.md can be the docs (future web-site)
-  - [ ] Description and Value proposition
-  - [ ] Installation
-  - [ ] Usage/quick example
-  - [ ] Documentation of each component? is it needed? probably not since the quick example is enough
-- [ ] CI/CD
-  - [x] test
-  - [ ] node.js publish on a different account (humanisys)
-- [ ] ensure storybook is well implemented
-- [ ] try to deliver storybooks website on github
