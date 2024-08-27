@@ -30,16 +30,6 @@ export function buildApp ({ onSubmit, ui = [], outputType = 'text' } = {}) {
     root: './views'
   })
 
-  app.get('/form', async (req, reply) => {
-    const ejsPath = 'form.ejs'
-    const cssPath = 'css/index.css'
-    const buildCssPath = 'css/index.build.css'
-
-    await buildHtmlFile({ ejsFile: `views/${ejsPath}`, cssPath, buildCssPath })
-
-    return reply.view(ejsPath, { cssPath: buildCssPath })
-  })
-
   app.post('/submit', async (req, reply) => {
     console.log(req.body.params, req.body.inputNames)
 
@@ -51,7 +41,7 @@ export function buildApp ({ onSubmit, ui = [], outputType = 'text' } = {}) {
     reply.send('ERROR: onSubmit callback was not provided')
   })
 
-  app.get('/static-demo', async (req, reply) => {
+  app.get('/', async (req, reply) => {
     const ejsPath = 'static-demo.ejs'
     const cssPath = 'css/static-demo.css'
     const buildCssPath = 'css/static-demo.build.css'
@@ -65,10 +55,6 @@ export function buildApp ({ onSubmit, ui = [], outputType = 'text' } = {}) {
     await buildHtmlFile({ ejsFile: `views/${ejsPath}`, cssPath, buildCssPath, content, inputNames, outputType })
 
     return reply.view(ejsPath, { cssPath: buildCssPath, content, inputNames, outputType })
-  })
-
-  app.get('/', (req, reply) => {
-    return reply.view('index.ejs', { name: 'User' })
   })
 
   return app
