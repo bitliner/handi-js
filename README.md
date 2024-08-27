@@ -112,7 +112,7 @@ Result will be:
   - [ ] toggle
 - [ ] change default daisy theme, in case add a theme switcher
 - [ ] range: fix missing label
-- [ ] add loader
+- [x] add loader
 - [x] find a name for the project
 - [ ] ensure README.md can be the docs (future web-site)
   - [ ] Description and Value proposition
@@ -120,7 +120,7 @@ Result will be:
   - [ ] Usage/quick example
   - [ ] Documentation of each component? is it needed? probably not since the quick example is enough
 - [ ] CI/CD
-  - [ ] test
+  - [x] test
   - [ ] node.js publish on a different account (humanisys)
 - [ ] ensure storybook is well implemented
 - [ ] try to deliver storybooks website on github
