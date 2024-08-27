@@ -1,6 +1,6 @@
 /** @type { import('@storybook/server-webpack5').StorybookConfig } */
 const config = {
-  stories: ["../stories/**/*.mdx", "../stories/**/*.stories.@(json|yaml|yml|js)"],
+  stories: ["../docs/stories/*.stories.@(json|yaml|yml|js)"],
   addons: [
     "@storybook/addon-webpack5-compiler-swc",
     "@storybook/addon-links",
