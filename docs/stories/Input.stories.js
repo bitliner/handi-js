@@ -1,4 +1,4 @@
-import input from '../lib/components/input'
+import { textInput } from '../../lib/components/text-input.js'
 
 export default {
   component: 'demo-your-component'
@@ -12,14 +12,14 @@ const args = {
 
 export const Default = {
   render: ({ type, name }) => {
-    return input({ type, name })()
+    return textInput({ type, name })()
   },
   args,
   parameters: {
     docs: {
       source: {
         type: 'code',
-        code: `input({ type: '${args.type}', name: '${args.name}' })`
+        code: `textInput({ type: '${args.type}', name: '${args.name}' })`
       }
     }
   }

@@ -1,4 +1,4 @@
-import '../css/index.build.css';
+import '../public/css/static-demo.build.css';
 
 /** @type { import('@storybook/server').Preview } */
 const preview = {
